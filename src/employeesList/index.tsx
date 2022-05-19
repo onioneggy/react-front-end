@@ -1,7 +1,7 @@
 import { Employee } from "../models"
 // import { Department } from "../models"
 
-export const DummyEmployees: Employee[] = [
+export let DummyEmployees: Employee[] = [
     {id: 0, name: 'hello', department:'HR', salary: 10},
     {id: 1, name: 'testing', department: 'HR', salary: 10},
     {id: 2, name: 'testing1', department: 'HR', salary: 10},

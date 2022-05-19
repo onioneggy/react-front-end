@@ -3,9 +3,11 @@ import AppBar from '@mui/material/AppBar';
 // import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { styled } from '@mui/system';
+import AddEmployeeButton from './AddEmployeeButton';
+import { useNavigate } from 'react-router';
+
 
 const TextStyle = styled(Typography)({
     fontSize: '30px',
@@ -16,19 +18,13 @@ const TextStyle = styled(Typography)({
     WebkitTextStroke: '1px black',
 })
 
-const AddEmployeeButton = styled(Button)({
-    background: '#34933B',
-    fontWeight: 700,
-    borderRadius:0,
-    fontSize: '16px'
-})
-
 export default function ButtonAppBar() {
+  const nav = useNavigate()
   return (
     <AppBar sx = {{background: '#365271'}} position='relative'>
         <Toolbar>
             <TextStyle>Employees</TextStyle>
-            <AddEmployeeButton
+            <AddEmployeeButton onClick={() => nav("/create", {replace: true})}
                 variant="contained" startIcon={<AddCircleRoundedIcon />}>
                 Add Employee
             </AddEmployeeButton>

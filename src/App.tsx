@@ -5,7 +5,8 @@ import Box from '@mui/material/Box';
 import FullWidthGrid from './components/FullWidthGrid';
 // import Toolbar from '@mui/material/Toolbar';
 import { createTheme } from '@mui/material/styles'
-import { ThemeProvider } from '@mui/styles';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AddEmployeePage from './components/AddEmployeePage';
 
 const mainTheme = createTheme({
   palette: {
@@ -18,13 +19,15 @@ const mainTheme = createTheme({
 
 function App() {
   return (
-    <Box>
-      {/* <ThemeProvider theme={mainTheme}> */}
-      <ButtonAppBar/>
-      <FullWidthGrid/>
-      {/* </ThemeProvider> */}
-    </Box>
-
+    <BrowserRouter>
+      <Box>
+        <ButtonAppBar/>
+        <Routes>
+          <Route path="/" element={<FullWidthGrid/>}></Route>
+          <Route path="/create" element={<AddEmployeePage/>}></Route>
+        </Routes>
+      </Box>
+    </BrowserRouter>
 
     
   );

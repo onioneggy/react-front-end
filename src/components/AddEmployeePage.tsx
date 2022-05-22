@@ -1,64 +1,83 @@
-import { Box, Button, Container, TextField } from "@mui/material";
+import { Box, Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { CreateEmployeeData } from "../App";
 import '../App.css'
-import { DummyEmployees } from "../employeesList";
-import { Employee } from "../models";
+import { useNavigate } from 'react-router';
+import { Department } from "../models";
 
-
-type KeyChange = {
-    target: { 
-        value: string; 
-        };
+type AddEmployeePageProp = {
+    addEmployee: (employee: CreateEmployeeData) => Promise<void>
 }
 
-export default function AddEmployeePage() {
-    const [employeeList, setEmployeeList]: any = useState(DummyEmployees)
-    const [newName, setNewName] = useState('')
-    const [newSalary, setNewSalary] = useState(0)
-    const [newDepartment, setNewDepartment] = useState('')
+type EmployeeState = {
+    name: string,
+    salary: string,
+    department: string
+}
 
-    let lengthIndex = DummyEmployees.length
+export default function AddEmployeePage({addEmployee}: AddEmployeePageProp) {
+    const [error, setError] = useState('')
+    const [employee, setEmployee] = useState<EmployeeState>({name: '', salary: '', department: ''})
 
-    const handleNameChange = (event: KeyChange ) => {
-        setNewName(event.target.value)
-        console.log(newName)
-    }
+    const nav = useNavigate()
 
-    const handleSalaryChange = (event: any) => {
-        setNewSalary(Number(event.target.value))
-        console.log(newSalary)
-    }
-
-    const handleDepartmentChange = (event: KeyChange) => {
-        setNewDepartment(event.target.value)
-        console.log(newDepartment)
-    }
-
-    const handleSubmit= (event: any) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const employee: Employee = {
-            id: lengthIndex,
-            name: newName,
-            salary: newSalary,
-            department: newDepartment
+        try {
+            const newEmployee: CreateEmployeeData = {
+                name: employee.name,
+                salary: Number(employee.salary),
+                department: employee.department as Department
+            }
+            await addEmployee(newEmployee)
+            nav('/', {replace: true})
+
+        } catch(err: any) {
+            setError(err.response.data.errorMessage)
         }
+    }
 
-        lengthIndex = lengthIndex+1
+    const handleChange = (event: { target: { name: any; value: any }; }) => {
+        const { name, value } = event.target
+         employee !== null && setEmployee({
+            ...employee,
+            [name]: value
+        
+    })
 
-        setEmployeeList([...employeeList, employee])
-        // DummyEmployees.push(employee)
-        console.log(employeeList)
     }
 
     return (
         <Container>
         <Box component="form"
-        sx={{'& .MuiTextField-root': { m: 1, width: '25ch' }}} noValidate autoComplete="off" onSubmit={handleSubmit}>
-            <TextField variant="standard" label="Employee Name" onChange={handleNameChange}/>
-            <TextField variant="standard" label="Salary" onChange={handleSalaryChange}/>
-            <TextField variant="standard" label="Department" onChange={handleDepartmentChange}/>
+        sx={{'& .MuiTextField-root': { m: 1, width: '25ch' }}} autoComplete="off" onSubmit={handleSubmit}>
+            <TextField variant="standard"
+                name="name"
+                label="Employee Name" 
+                onChange={handleChange} 
+                error={(employee.name.length > 30 || employee.name.length < 4) && employee.name !== ''}
+                helperText="Must be between 4 to 30 characters"/>
+            <TextField variant="standard"
+                name="salary"
+                label="Salary" 
+                onChange={handleChange}
+                error={isNaN(Number(employee.salary))}
+                helperText="Salary must be a positive number"/>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="department">Department</InputLabel>
+                <Select
+                    name="department"
+                    labelId="department"
+                    value={employee.department}
+                    onChange={handleChange}
+                    label="department">
+                    {Object.values(Department).map(department => <MenuItem key={department} value={department}>{department}</MenuItem>)}
+                </Select>
+            </FormControl>
             <Button sx={{m:3}} type="submit">SUBMIT</Button>
         </Box>
+
+        <Typography color={'red'}>{error}</Typography>
         
         </Container>
     )

@@ -1,16 +1,11 @@
-export class Employee {
-    constructor(
-                public id: number,
-                public name: string,
-                public salary: number,
-                public department: string) {}
-
-//     isEqualTo(other: Employee): boolean {
-//         return this.id === other.id && this.name === other.name && this.salary === other.salary && this.department === other.department
-//     }
+export type Employee = {
+    id: number,
+    name: string,
+    salary: number,
+    department: Department
 }
 
-// export enum Department {
-//     HR = "HR",
-//     PS = "PS"
-// }
+export enum Department {
+    HR = "HR",
+    PS = "PS"
+}

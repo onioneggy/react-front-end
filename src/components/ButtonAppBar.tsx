@@ -1,6 +1,5 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-// import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
@@ -23,7 +22,7 @@ export default function ButtonAppBar() {
   return (
     <AppBar sx = {{background: '#365271'}} position='relative'>
         <Toolbar>
-            <TextStyle>Employees</TextStyle>
+            <TextStyle onClick={() => nav("/", {replace: true})}>Employees</TextStyle>
             <AddEmployeeButton onClick={() => nav("/create", {replace: true})}
                 variant="contained" startIcon={<AddCircleRoundedIcon />}>
                 Add Employee

@@ -61,7 +61,7 @@ export default function AddEmployeePage({addEmployee}: AddEmployeePageProp) {
                 name="salary"
                 label="Salary" 
                 onChange={handleChange}
-                error={isNaN(Number(employee.salary))}
+                error={Number(employee.salary) < 0}
                 helperText="Salary must be a positive number"/>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="department">Department</InputLabel>

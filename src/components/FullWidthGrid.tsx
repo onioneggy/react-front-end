@@ -1,4 +1,3 @@
-// import { DummyEmployees } from '../employeesList';
 import Typography from '@mui/material/Typography';
 import { MouseEvent, useState } from 'react';
 import { Box, Button } from '@mui/material';
@@ -16,8 +15,6 @@ type FullWidthGridProps = {
 export default function FullWidthGrid({ employees, delEmployee, editEmployee }: FullWidthGridProps) {
   const [page, setPage] = useState(0)
 
-
-
   const handleNextClick =(event: MouseEvent) => {
     setPage(page+1)
   }
@@ -31,7 +28,7 @@ export default function FullWidthGrid({ employees, delEmployee, editEmployee }: 
       <div className='oneLine'>
         <Box sx={{display: 'flex'}}>
           <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',xs:'none'}}}>Showing items</Typography>
-          <Typography sx={{fontWeight: 700, display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',  xs:'none'}}}>&nbsp;{page*10 + 1}-{page*10+10}&nbsp;</Typography>
+          <Typography sx={{fontWeight: 700, display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',  xs:'none'}}}>&nbsp;{page*10 + 1}-{employees.length < 10 ? employees.length : page*10+10 }&nbsp;</Typography>
           <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>out of</Typography>
           <Typography sx ={{fontWeight: 700, display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>&nbsp;{employees.length}&nbsp;</Typography> 
           <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>entries</Typography>

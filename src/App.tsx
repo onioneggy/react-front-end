@@ -7,8 +7,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AddEmployeePage from './components/AddEmployeePage';
 import axios from 'axios';
 import { Employee } from './models';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
+const newTheme = createTheme({
+  typography: {
+    fontFamily: 'roboto'
+  }
+})
 
 export type CreateEmployeeData = Omit<Employee, "id">
 
@@ -21,7 +26,6 @@ function App() {
     .get('http://localhost:3001/employee')
     .then(res => {
       setEmployees(res.data)
-      console.log(res.data)
     })
   }, [])
 
@@ -34,7 +38,6 @@ function App() {
   const delEmployee = async (id: number) => {
     await axios.delete(`http://localhost:3001/employee/${id}`)
     setEmployees((employees).filter(employee => employee.id !== id))
-    console.log('hi')
   }
 
   const editEmployee = async (employee: Employee) => { 
@@ -50,6 +53,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <ThemeProvider theme ={newTheme}>
       <Box>
         <ButtonAppBar />
         <Routes>
@@ -57,6 +61,7 @@ function App() {
           <Route path="/create" element={<AddEmployeePage addEmployee={addEmployee}/>}></Route>
         </Routes>
       </Box>
+      </ThemeProvider>
     </BrowserRouter>
 
     

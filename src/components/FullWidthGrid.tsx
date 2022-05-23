@@ -1,10 +1,11 @@
 // import { DummyEmployees } from '../employeesList';
 import Typography from '@mui/material/Typography';
 import { MouseEvent, useState } from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import '../App.css'
 import { CardDisplay } from './CardDisplay';
 import { Employee } from '../models';
+
 
 type FullWidthGridProps = {
   employees: Employee[],
@@ -24,19 +25,21 @@ export default function FullWidthGrid({ employees, delEmployee, editEmployee }: 
     setPage(page-1)
   }
 
-
   return (
     <div>
       <CardDisplay page={page} employees={employees} delEmployee={delEmployee} editEmployee={editEmployee}/>
       <div className='oneLine'>
-        <Typography display='flex'>Showing items 
-          <Typography component='span' style={{fontWeight: 700}}>&nbsp;{page*10 + 1}-{page*10+10}&nbsp;</Typography>out of 
-          <Typography component='span' style ={{fontWeight: 700}}>&nbsp;{employees.length}&nbsp;</Typography> 
-          entries</Typography>
+        <Box sx={{display: 'flex'}}>
+          <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',xs:'none'}}}>Showing items</Typography>
+          <Typography sx={{fontWeight: 700, display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',  xs:'none'}}}>&nbsp;{page*10 + 1}-{page*10+10}&nbsp;</Typography>
+          <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>out of</Typography>
+          <Typography sx ={{fontWeight: 700, display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>&nbsp;{employees.length}&nbsp;</Typography> 
+          <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>entries</Typography>
+        </Box>
         <div className='divLine'>
-          <Button style={{fontSize: '16px', fontWeight: 700}} disabled={page === 0} onClick={handlePrevClick}>Previous</Button>
-          <Typography style={{fontWeight: 700}}>{page+1}</Typography>
-          <Button style={{fontSize:'16px', fontWeight: 700}} disabled={page === Math.floor(employees.length/10)} onClick={handleNextClick}>Next</Button>
+          <Button sx={{fontSize: '16px', fontWeight: 700}} disabled={page === 0} onClick={handlePrevClick}>Previous</Button>
+          <Typography sx={{fontWeight: 700}}>{page+1}</Typography>
+          <Button sx={{fontSize:'16px', fontWeight: 700}} disabled={page === Math.floor(employees.length/10)} onClick={handleNextClick}>Next</Button>
         </div>
       </div>
     </div>

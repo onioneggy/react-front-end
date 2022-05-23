@@ -28,7 +28,7 @@
 }
 
 .divLine {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   font-size: 16px;
   line-height: 19px;

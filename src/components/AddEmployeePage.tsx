@@ -4,10 +4,10 @@ import { CreateEmployeeData } from "../App";
 import '../App.css'
 import { useNavigate } from 'react-router';
 import { Department } from "../models";
-
-type AddEmployeePageProp = {
-    addEmployee: (employee: CreateEmployeeData) => Promise<void>
-}
+import { useSelector, useDispatch } from 'react-redux'
+import { insertEmployee } from "../reducers/employee";
+import axios from "axios";
+import { RootState } from "..";
 
 type EmployeeState = {
     name: string,
@@ -15,9 +15,12 @@ type EmployeeState = {
     department: string
 }
 
-export default function AddEmployeePage({addEmployee}: AddEmployeePageProp) {
+export default function AddEmployeePage() {
     const [error, setError] = useState('')
     const [employee, setEmployee] = useState<EmployeeState>({name: '', salary: '', department: ''})
+
+    const employees = useSelector((state: RootState) => state.setEmployeeReducer.employees)
+    const dispatch = useDispatch()
 
     const nav = useNavigate()
 
@@ -29,7 +32,9 @@ export default function AddEmployeePage({addEmployee}: AddEmployeePageProp) {
                 salary: Number(employee.salary),
                 department: employee.department as Department
             }
-            await addEmployee(newEmployee)
+            const employeeget = (await axios.post('http://localhost:3001/employee', newEmployee)).data
+            
+            dispatch(insertEmployee(employeeget))
             nav('/', {replace: true})
 
         } catch(err: any) {

@@ -3,16 +3,12 @@ import { MouseEvent, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import '../App.css'
 import { CardDisplay } from './CardDisplay';
-import { Employee } from '../models';
+import { RootState } from '..';
+import { useSelector } from 'react-redux';
 
 
-type FullWidthGridProps = {
-  employees: Employee[],
-  delEmployee: (employeeId: number) => Promise<void>
-  editEmployee: (employee: Employee) => Promise<void>
-}
-
-export default function FullWidthGrid({ employees, delEmployee, editEmployee }: FullWidthGridProps) {
+export default function FullWidthGrid() {
+  const employees = useSelector((state: RootState) => state.setEmployeeReducer.employees)
   const [page, setPage] = useState(0)
 
   const handleNextClick =(event: MouseEvent) => {
@@ -24,7 +20,7 @@ export default function FullWidthGrid({ employees, delEmployee, editEmployee }: 
 
   return (
     <div>
-      <CardDisplay page={page} employees={employees} delEmployee={delEmployee} editEmployee={editEmployee}/>
+      <CardDisplay page={page}/>
       <div className='oneLine'>
         <Box sx={{display: 'flex'}}>
           <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',xs:'none'}}}>Showing items</Typography>
@@ -34,9 +30,9 @@ export default function FullWidthGrid({ employees, delEmployee, editEmployee }: 
           <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>entries</Typography>
         </Box>
         <div className='divLine'>
-          <Button sx={{fontSize: '16px', fontWeight: 700}} disabled={page === 0} onClick={handlePrevClick}>Previous</Button>
+          <Button sx={{fontSize: '16px', fontWeight: 700, textTransform: 'none'}} disabled={page === 0} onClick={handlePrevClick}>Previous</Button>
           <Typography sx={{fontWeight: 700}}>{page+1}</Typography>
-          <Button sx={{fontSize:'16px', fontWeight: 700}} disabled={employees.length%10 === 0 ? true : page === Math.floor(employees.length/10)} onClick={handleNextClick}>Next</Button>
+          <Button sx={{fontSize:'16px', fontWeight: 700, textTransform: 'none'}} disabled={employees.length%10 === 0 ? true : page === Math.floor(employees.length/10)} onClick={handleNextClick}>Next</Button>
         </div>
       </div>
     </div>

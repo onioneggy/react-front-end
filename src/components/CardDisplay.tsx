@@ -6,12 +6,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Employee } from '../models';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteEmployee, updateEmployee } from '../reducers/employee';
+import { RootState } from '..';
+import axios from 'axios';
 
 type CardDisplayProps = {
     page: number,
-    employees: Employee[],
-    delEmployee: (employeeId : number) => Promise<void>,
-    editEmployee: (employee: Employee ) => Promise<void>
   }
 
 const YellowButton = styled(IconButton)({
@@ -29,7 +30,10 @@ borderRadius: '3px',
 });
     
   
-  export const CardDisplay = ({page, employees, delEmployee, editEmployee}: CardDisplayProps) => {
+  export const CardDisplay = ({page}: CardDisplayProps) => {
+
+    const dispatch = useDispatch()
+    const employees = useSelector((state: RootState) => state.setEmployeeReducer.employees) as Employee[]
   
     const [open, setOpen] = useState(false)
     const [editOpen, setEditOpen] = useState(false)
@@ -47,7 +51,13 @@ borderRadius: '3px',
     }
   
     const handleEditDone = async (employee: Employee) => {
-      await editEmployee(employee)
+      const updateData = {
+      name : employee.name,
+      salary: employee.salary,
+      department: employee.department
+    }
+      await axios.put(`http://localhost:3001/employee/${employee.id}`, updateData)
+      dispatch(updateEmployee({id: employee.id, ...updateData}))
       setEditOpen(false)
     }
 
@@ -61,8 +71,9 @@ borderRadius: '3px',
 
     }
 
-    const handleDelDone = async (id: number) => {
-      await delEmployee(id)
+    const handleDelDone = async (employee: Employee) => {
+      await axios.delete(`http://localhost:3001/employee/${employee.id}`)
+      dispatch(deleteEmployee(employee))
       setOpen(false)
     }
   
@@ -72,7 +83,7 @@ borderRadius: '3px',
     return (
       <Container maxWidth="lg">
         <Grid container spacing={2} mt={2}>
-          {employees.slice(page*10, page*10+10).map(employee => 
+          {[...employees].splice(page*10, page*10+10).map((employee: Employee) => 
           <Grid container item xs={12} sm={6} key={employee.id}>
           <StyledCard elevation={0}>
           <Grid container item wrap="nowrap" justifyContent="space-between">
@@ -80,7 +91,7 @@ borderRadius: '3px',
               <Grid item sx={{paddingLeft:'13px'}}key={employee.id}>
                 <Typography color='#365271' variant='h5' fontWeight={700}>{employee.name}</Typography>
                 <Typography color='#365271'>{employee.department}</Typography>
-                <Typography color='#365271'>{employee.salary}</Typography>
+                <Typography color='#365271'>${employee.salary}</Typography>
               </Grid>
             </Grid>
               <Grid item key={employee.id} alignItems="center" display="flex">
@@ -101,7 +112,7 @@ borderRadius: '3px',
           </DialogTitle>
           <DialogActions>
             <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <Button onClick={() => handleDelDone(employee.id)} autoFocus>
+            <Button onClick={() => handleDelDone(employee)} autoFocus>
                         Delete
             </Button>
             </DialogActions>

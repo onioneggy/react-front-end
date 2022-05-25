@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux'
 import { setEmployees } from './reducers/employee';
 import { RootState } from '.';
+import SimpleSnackbar from './components/Snackbar';
 
 
 const newTheme = createTheme({
@@ -40,6 +41,7 @@ function App() {
     <ThemeProvider theme ={newTheme}>
       <Box>
         <ButtonAppBar />
+        <SimpleSnackbar/>
         <Routes>
           <Route path="/" element={<FullWidthGrid/>}></Route>
           <Route path="/create" element={<AddEmployeePage/>}></Route>

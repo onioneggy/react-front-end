@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { Department } from "../models";
 import { useSelector, useDispatch } from 'react-redux'
 import { insertEmployee } from "../reducers/employee";
+import { setSnackBar } from "../reducers/snackbar";
 import axios from "axios";
 import { RootState } from "..";
 
@@ -33,9 +34,10 @@ export default function AddEmployeePage() {
                 department: employee.department as Department
             }
             const employeeget = (await axios.post('http://localhost:3001/employee', newEmployee)).data
-            
+            dispatch(setSnackBar(true))          
             dispatch(insertEmployee(employeeget))
             nav('/', {replace: true})
+            
 
         } catch(err: any) {
             setError(err.response.data.errorMessage)
@@ -88,3 +90,4 @@ export default function AddEmployeePage() {
     )
 
 }
+

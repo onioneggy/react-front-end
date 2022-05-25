@@ -24,7 +24,7 @@ const TextStyle = styled(Typography)({
 export default function ButtonAppBar() {
   const nav = useNavigate()
   return (
-    <AppBar sx = {{background: '#365271'}} position='relative'>
+    <AppBar sx = {{background: '#365271'}} elevation= {0}  position='relative'>
         <Toolbar>
             <TextStyle onClick={() => nav("/", {replace: true})}>Employees</TextStyle>
             <AddEmployeeButton sx={{display: {xs: 'none', md:'flex' }}}onClick={() => nav("/create", {replace: true})}

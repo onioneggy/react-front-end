@@ -6,11 +6,13 @@ import setEmployeeReducer from './reducers/employee';
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit';
 import snackbarReducer from './reducers/snackbar';
+import userDataReducer from './reducers/login'
 
 export const store = configureStore({
   reducer: {
     setEmployeeReducer,
-    snackbarReducer}
+    snackbarReducer,
+    userDataReducer}
 
 })
 

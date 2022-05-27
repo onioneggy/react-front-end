@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setEmployees } from './reducers/employee';
 import { RootState } from '.';
 import SimpleSnackbar from './components/Snackbar';
+import { LoginPage } from './components/Login';
 
 
 const newTheme = createTheme({
@@ -39,14 +40,23 @@ function App() {
   return (
     <BrowserRouter>
     <ThemeProvider theme ={newTheme}>
-      <Box>
-        <ButtonAppBar />
-        <SimpleSnackbar/>
         <Routes>
-          <Route path="/" element={<FullWidthGrid/>}></Route>
-          <Route path="/create" element={<AddEmployeePage/>}></Route>
+          <Route path="/" element={
+            <Box>
+              <ButtonAppBar />
+              <SimpleSnackbar/>
+              <FullWidthGrid/>
+            </Box>}>
+          </Route>
+          <Route path="/create" element={
+            <Box>
+              <ButtonAppBar />
+              <SimpleSnackbar/>
+              <AddEmployeePage/>
+            </Box>}>
+            </Route>
+            <Route path="/login" element={<LoginPage/>}/>
         </Routes>
-      </Box>
       </ThemeProvider>
     </BrowserRouter>
 

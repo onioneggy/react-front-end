@@ -91,7 +91,7 @@ borderRadius: '3px',
               <Grid item sx={{paddingLeft:'13px'}}key={employee.id}>
                 <Typography color='#365271' variant='h5' fontWeight={700}>{employee.name}</Typography>
                 <Typography color='#365271'>{employee.department}</Typography>
-                <Typography color='#365271'>${employee.salary}</Typography>
+                <Typography color='#365271'>${employee.salary.toLocaleString("en-US")}</Typography>
               </Grid>
             </Grid>
               <Grid item key={employee.id} alignItems="center" display="flex">

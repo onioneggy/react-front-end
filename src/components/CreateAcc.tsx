@@ -7,11 +7,10 @@ import { User } from "../reducers/login";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
 
 
-export const LoginPage = () => {
-    const nav = useNavigate()
+
+export const CreateAccPage = () => {
 
     const user = useSelector((state: RootState) => state.userDataReducer.userData as User)
     const [singleUser, setSingleUser] = useState<User>({username: '', password: ''})
@@ -24,15 +23,14 @@ export const LoginPage = () => {
     })
     }
 
-    const handleLogin = async () => {
-        await axios.post(`http://localhost:3001/user/login`, singleUser)
-        nav("/", {replace: true})
+    const handleSubmit = async () => {
+        await axios.post(`http://localhost:3001/user/signup`, singleUser)
     }
 
     return (
         <Container sx ={{alignItems: 'center', justifyContent: 'center', display: 'flex', textAlign: 'center'}}>
             <Box component="form" sx={{width: '25%', '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: '30px', }}>
-                    <Typography variant="h6">Log in</Typography>
+                    <Typography variant="h6">Create Account</Typography>
                     <TextField 
                         name="username"
                         InputProps={{
@@ -59,8 +57,7 @@ export const LoginPage = () => {
                             )}} 
                     label="Password"
                     onChange={handleChange}></TextField>
-                    <Button onClick={handleLogin}>Submit</Button>
-                    <Button onClick={() => nav("/signup", {replace: true})}>Create New Account</Button>
+                    <Button onClick={handleSubmit}>Submit</Button>
                 </Box>
         </Container>
     )

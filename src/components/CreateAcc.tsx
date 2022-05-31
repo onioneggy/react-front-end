@@ -7,11 +7,13 @@ import { User } from "../reducers/login";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 
 
 export const CreateAccPage = () => {
 
+    const nav = useNavigate()
     const user = useSelector((state: RootState) => state.userDataReducer.userData as User)
     const [singleUser, setSingleUser] = useState<User>({username: '', password: ''})
 
@@ -25,6 +27,7 @@ export const CreateAccPage = () => {
 
     const handleSubmit = async () => {
         await axios.post(`http://localhost:3001/user/signup`, singleUser)
+        nav('/login', {replace: true})
     }
 
     return (

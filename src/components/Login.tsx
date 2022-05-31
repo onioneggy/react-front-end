@@ -25,8 +25,10 @@ export const LoginPage = () => {
     }
 
     const handleLogin = async () => {
-        await axios.post(`http://localhost:3001/user/login`, singleUser)
+        const tokens = await (await axios.post(`http://localhost:3001/user/login`, singleUser)).data
+        localStorage.setItem('token', tokens.token)
         nav("/", {replace: true})
+        
     }
 
     return (

@@ -26,12 +26,12 @@ export type CreateEmployeeData = Omit<Employee, "id">
 
 function App() {
   const dispatch = useDispatch()
-
+  // axios.defaults.headers.common["x-access-token"] = localStorage.getItem("token") || "";
   const employees = useSelector((state: RootState) => state.setEmployeeReducer.employees)
 
   useEffect(() => {
     axios
-    .get('http://localhost:3001/employee')
+    .get('http://localhost:3001/employee', {headers : { 'token': localStorage.getItem('token') || "" }})
     .then(res => {
       console.log(res.data)
       dispatch(setEmployees(res.data))

@@ -5,7 +5,7 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { styled } from '@mui/system';
 import AddEmployeeButton from './AddEmployeeButton';
 import { useNavigate } from 'react-router';
-import { Button, IconButton } from '@mui/material';
+import { Stack, IconButton } from '@mui/material';
 
 
 const SmallButton= styled(IconButton)({
@@ -34,14 +34,16 @@ export default function ButtonAppBar() {
     <AppBar sx = {{background: '#365271'}} elevation= {0}  position='relative'>
         <Toolbar>
             <TextStyle onClick={() => nav("/", {replace: true})}>Employees</TextStyle>
-            <AddEmployeeButton sx={{display: {xs: 'none', md:'flex' }}}onClick={() => nav("/create", {replace: true})}
-                variant="contained" startIcon={<AddCircleRoundedIcon />}>
-                Add Employee
-            </AddEmployeeButton>
-            <SmallButton sx={{display: {xs: 'flex', md:'none'}}} onClick={() => nav("/create", {replace: true})}>
-              <AddCircleRoundedIcon/>
-            </SmallButton>
-            <Button onClick={logout}>Logout</Button>
+            <Stack spacing={2} direction="row">
+              <AddEmployeeButton sx={{display: {xs: 'none', md:'flex' }}}onClick={() => nav("/create", {replace: true})}
+                  variant="contained" startIcon={<AddCircleRoundedIcon />}>
+                  Add Employee
+              </AddEmployeeButton>
+              <SmallButton sx={{display: {xs: 'flex', md:'none'}}} onClick={() => nav("/create", {replace: true})}>
+                <AddCircleRoundedIcon/>
+              </SmallButton>
+              <AddEmployeeButton sx={{display: 'flex'}}variant="contained" onClick={logout}>Logout</AddEmployeeButton>
+            </Stack>
         </Toolbar>
     </AppBar>
   );

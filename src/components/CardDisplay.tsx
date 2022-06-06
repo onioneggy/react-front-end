@@ -38,6 +38,7 @@ borderRadius: '3px',
     const [open, setOpen] = useState(false)
     const [editOpen, setEditOpen] = useState(false)
     const [employee, setEmployee] = useState<Employee | null>(null)
+    const [error, setError] = useState('')
   
     const handleDelete = (employee: Employee) => {
       setOpen(true)
@@ -51,6 +52,8 @@ borderRadius: '3px',
     }
   
     const handleEditDone = async (employee: Employee) => {
+
+      try {
       const updateData = {
       name : employee.name,
       salary: employee.salary,
@@ -59,6 +62,9 @@ borderRadius: '3px',
       await axios.put(`http://localhost:3001/employee/${employee.id}`, updateData)
       dispatch(updateEmployee({id: employee.id, ...updateData}))
       setEditOpen(false)
+    } catch (err: any) {
+      setError(err.response.data.errorMessage)
+    }
     }
 
     const handleChange = (event: { target: { name: any; value: any }; }) => {
@@ -123,11 +129,12 @@ borderRadius: '3px',
           </DialogTitle>
           <DialogContent>
             <TextField 
-            autoFocus margin="dense" name="name" label="Name" type="name" fullWidth variant="standard" defaultValue={employee.name} onChange={handleChange}/>
+            autoFocus margin="dense" name="name" label="Name" type="name" fullWidth variant="standard" defaultValue={employee.name} onChange={handleChange} error={(employee.name.length > 30 || employee.name.length < 4) || employee.name === '' || !employee.name.match("^[\\w\\-\\s]+$")}/>
             <TextField autoFocus margin="dense" name="salary" label="Salary" type="money" fullWidth variant="standard" defaultValue={employee.salary} onChange={handleChange}/>
             <TextField autoFocus margin="dense" name="department" label="Department" type="text" fullWidth variant="standard" defaultValue={employee.department} onChange={handleChange}/>
           </DialogContent>
           <DialogActions>
+          <Typography color={'red'}>{error}</Typography>
             <Button onClick={() => handleEditDone(employee)} autoFocus>
                         Confirm
             </Button>

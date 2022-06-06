@@ -62,7 +62,8 @@ export default function AddEmployeePage() {
                 name="name"
                 label="Employee Name" 
                 onChange={handleChange} 
-                error={(employee.name.length > 30 || employee.name.length < 4) && employee.name !== ''}
+                error={(employee.name.length > 30 || employee.name.length < 4) || employee.name === '' || !employee.name.match("^[\\w\\-\\s]+$")
+            }
                 helperText="Must be between 4 to 30 characters"/>
             <TextField variant="standard"
                 name="salary"

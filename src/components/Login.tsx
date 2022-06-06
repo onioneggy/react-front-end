@@ -1,8 +1,6 @@
 import { Box, Button, Container, InputAdornment, TextField, Typography } from "@mui/material"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordIcon from '@mui/icons-material/Password';
-import { useSelector } from "react-redux";
-import { RootState } from "..";
 import { User } from "../reducers/login";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useState } from "react";
@@ -13,7 +11,7 @@ import { useNavigate } from "react-router";
 export const LoginPage = () => {
     const nav = useNavigate()
 
-    const user = useSelector((state: RootState) => state.userDataReducer.userData as User)
+    // const user = useSelector((state: RootState) => state.userDataReducer.userData as User)
     const [singleUser, setSingleUser] = useState<User>({username: '', password: ''})
 
     const handleChange = (event: { target: { name: any; value: any }; }) => {
@@ -25,9 +23,13 @@ export const LoginPage = () => {
     }
 
     const handleLogin = async () => {
-        const tokens = await (await axios.post(`http://localhost:3001/user/login`, singleUser)).data
-        localStorage.setItem('token', tokens.token)
-        nav("/", {replace: true})
+        try {
+            const responseData = await (await axios.post(`http://localhost:3001/user/login`, singleUser)).data
+            localStorage.setItem('token', responseData.token)
+            nav("/", {replace: true})
+        } catch (err: any) {
+            alert(err.response.data.errorMessage)
+        }
         
     }
 
@@ -61,7 +63,7 @@ export const LoginPage = () => {
                             )}} 
                     label="Password"
                     onChange={handleChange}></TextField>
-                    <Button onClick={handleLogin}>Submit</Button>
+                    <Button onClick={handleLogin}>Sign in</Button>
                     <Button onClick={() => nav("/signup", {replace: true})}>Create New Account</Button>
                 </Box>
         </Container>

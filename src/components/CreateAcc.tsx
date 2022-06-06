@@ -1,8 +1,6 @@
 import { Box, Button, Container, InputAdornment, TextField, Typography } from "@mui/material"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordIcon from '@mui/icons-material/Password';
-import { useSelector } from "react-redux";
-import { RootState } from "..";
 import { User } from "../reducers/login";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useState } from "react";
@@ -14,7 +12,6 @@ import { useNavigate } from "react-router";
 export const CreateAccPage = () => {
 
     const nav = useNavigate()
-    const user = useSelector((state: RootState) => state.userDataReducer.userData as User)
     const [singleUser, setSingleUser] = useState<User>({username: '', password: ''})
 
     const handleChange = (event: { target: { name: any; value: any }; }) => {
@@ -60,7 +57,7 @@ export const CreateAccPage = () => {
                             )}} 
                     label="Password"
                     onChange={handleChange}></TextField>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button onClick={handleSubmit}>Create account</Button>
                 </Box>
         </Container>
     )

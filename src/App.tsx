@@ -3,35 +3,25 @@ import './App.css';
 import ButtonAppBar from './components/ButtonAppBar';
 import Box from '@mui/material/Box';
 import FullWidthGrid from './components/FullWidthGrid';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 import AddEmployeePage from './components/AddEmployeePage';
 import axios from 'axios';
 import { Employee } from './models';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setEmployees } from './reducers/employee';
-import { RootState } from '.';
 import SimpleSnackbar from './components/Snackbar';
 import { LoginPage } from './components/Login';
 import { CreateAccPage } from './components/CreateAcc';
 
 
-// const newTheme = createTheme({
-//   typography: {
-//     fontFamily: 'roboto'
-//   }
-// })
-
 export type CreateEmployeeData = Omit<Employee, "id">
 
 function App() {
   const dispatch = useDispatch()
-  // axios.defaults.headers.common["x-access-token"] = localStorage.getItem("token") || "";
-  const employees = useSelector((state: RootState) => state.setEmployeeReducer.employees)
 
   useEffect(() => {
     axios
-    .get('http://localhost:3001/employee', {headers : { 'token': localStorage.getItem('token') || "" }})
+    .get('http://localhost:3001/employee', { headers : { 'token': localStorage.getItem('token') || "" } })
     .then(res => {
       console.log(res.data)
       dispatch(setEmployees(res.data))
@@ -40,15 +30,14 @@ function App() {
 
   return (
     <BrowserRouter>
-    {/* <ThemeProvider theme ={newTheme}> */}
         <Routes>
-          <Route path="/" element={
+          <Route path="/" element= { (localStorage.getItem('token') === "") ?
+          <Navigate to="/login" replace={true}/> :
             <Box>
               <ButtonAppBar />
               <SimpleSnackbar/>
               <FullWidthGrid/>
-            </Box>}>
-          </Route>
+            </Box> }/>
           <Route path="/create" element={
             <Box>
               <ButtonAppBar />
@@ -59,7 +48,6 @@ function App() {
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/signup" element={<CreateAccPage/>}/>
         </Routes>
-      {/* </ThemeProvider> */}
     </BrowserRouter>
 
     

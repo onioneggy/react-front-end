@@ -24,7 +24,7 @@ export default function FullWidthGrid() {
       <div className='oneLine'>
         <Box sx={{display: 'flex'}}>
           <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',xs:'none'}}}>Showing items</Typography>
-          <Typography sx={{fontWeight: 700, display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',  xs:'none'}}}>&nbsp;{page*10 + 1}-{employees.length < 10 ? employees.length : page*10+10 }&nbsp;</Typography>
+          <Typography sx={{fontWeight: 700, display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex',  xs:'none'}}}>&nbsp;{page*10 }-{employees.length < 10 ? employees.length : page*10+10 }&nbsp;</Typography>
           <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>out of</Typography>
           <Typography sx ={{fontWeight: 700, display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>&nbsp;{employees.length}&nbsp;</Typography> 
           <Typography sx={{display: {md: 'flex', xl: 'flex', l: 'flex', s:'flex', xs:'none'}}}>entries</Typography>
@@ -32,7 +32,7 @@ export default function FullWidthGrid() {
         <div className='divLine'>
           <Button sx={{fontSize: '16px', fontWeight: 700, textTransform: 'none'}} disabled={page === 0} onClick={handlePrevClick}>Previous</Button>
           <Typography sx={{fontWeight: 700}}>{page+1}</Typography>
-          <Button sx={{fontSize:'16px', fontWeight: 700, textTransform: 'none'}} disabled={(page+1) === Math.ceil(employees.length/10)} onClick={handleNextClick}>Next</Button>
+          <Button sx={{fontSize:'16px', fontWeight: 700, textTransform: 'none'}} disabled={(page+1) === Math.ceil(employees.length/10) || employees.length === 0} onClick={handleNextClick}>Next</Button>
         </div>
       </div>
     </div>

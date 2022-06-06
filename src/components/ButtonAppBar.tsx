@@ -5,7 +5,7 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { styled } from '@mui/system';
 import AddEmployeeButton from './AddEmployeeButton';
 import { useNavigate } from 'react-router';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 
 
 const SmallButton= styled(IconButton)({
@@ -21,8 +21,15 @@ const TextStyle = styled(Typography)({
     WebkitTextStroke: '1px black',
 })
 
+
+
 export default function ButtonAppBar() {
   const nav = useNavigate()
+  const logout = () => {
+    localStorage.removeItem('token')
+      nav('/login', {replace:true})
+  }
+  
   return (
     <AppBar sx = {{background: '#365271'}} elevation= {0}  position='relative'>
         <Toolbar>
@@ -34,6 +41,7 @@ export default function ButtonAppBar() {
             <SmallButton sx={{display: {xs: 'flex', md:'none'}}} onClick={() => nav("/create", {replace: true})}>
               <AddCircleRoundedIcon/>
             </SmallButton>
+            <Button onClick={logout}>Logout</Button>
         </Toolbar>
     </AppBar>
   );
